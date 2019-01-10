@@ -1,0 +1,1126 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API Specifications for Novartis\n",
+    "version" : "1.0.0",
+    "title" : "Novartis-API",
+    "termsOfService" : "http://swagger.io/terms/",
+    "contact" : {
+      "email" : "info@novartis.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "localhost:3000",
+  "basePath" : "/api/1",
+  "paths" : {
+    "/projects" : {
+      "get" : {
+        "tags" : [ "Project" ],
+        "summary" : "Get Project list SOLR",
+        "description" : "Get Project list SOLR. Supports paging & search",
+        "operationId" : "listProjectsSOLR",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "Number of objects returned",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page number",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "description" : "sort records in ASC or DESC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "order_by",
+          "in" : "query",
+          "description" : "field to sort by",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "array of ids to retrieve",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "allOf" : [ {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 1
+                    }
+                  }
+                }, {
+                  "$ref" : "#/definitions/MD_PROJECT"
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "Project" ],
+        "summary" : "Create Project",
+        "description" : "Create Project",
+        "operationId" : "createProject",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MD_PROJECT"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "allOf" : [ {
+                "properties" : {
+                  "id" : {
+                    "type" : "integer",
+                    "example" : 1
+                  }
+                }
+              }, {
+                "$ref" : "#/definitions/MD_PROJECT"
+              } ]
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/projects/{id}" : {
+      "get" : {
+        "tags" : [ "Project" ],
+        "summary" : "Get Project",
+        "description" : "Get Project",
+        "operationId" : "getProject",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of the Project that needs to be fetched.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "allOf" : [ {
+                "properties" : {
+                  "id" : {
+                    "type" : "integer",
+                    "example" : 1
+                  }
+                }
+              }, {
+                "$ref" : "#/definitions/MD_PROJECT"
+              } ]
+            }
+          },
+          "400" : {
+            "description" : "Invalid id supplied"
+          },
+          "404" : {
+            "description" : "Project not found"
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "Project" ],
+        "summary" : "Update Project",
+        "description" : "Update Project",
+        "operationId" : "updateProject",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of the object that needs to be fetched.",
+          "required" : true,
+          "type" : "integer"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MD_PROJECT"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "allOf" : [ {
+                "properties" : {
+                  "id" : {
+                    "type" : "integer",
+                    "example" : 1
+                  }
+                }
+              }, {
+                "$ref" : "#/definitions/MD_PROJECT"
+              } ]
+            }
+          },
+          "400" : {
+            "description" : "Invalid id supplied"
+          },
+          "404" : {
+            "description" : "Project not found"
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/statuses" : {
+      "get" : {
+        "tags" : [ "Statuses" ],
+        "summary" : "Get Statuses list",
+        "description" : "Get Statuses list. Supports paging & search",
+        "operationId" : "getStatuses",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "Number of objects returned",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page number",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "description" : "sort records in ASC or DESC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "order_by",
+          "in" : "query",
+          "description" : "field to sort by",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "array of ids to retrieve",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "allOf" : [ {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 1
+                    }
+                  }
+                }, {
+                  "$ref" : "#/definitions/MD_PROJECT_STATUSES"
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/programmers1" : {
+      "get" : {
+        "tags" : [ "Programmers1" ],
+        "summary" : "Get Programmers1 list",
+        "description" : "Get Programmers1 list. Supports paging & search",
+        "operationId" : "getProjectContacts",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "Number of objects returned",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page number",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "description" : "sort records in ASC or DESC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "order_by",
+          "in" : "query",
+          "description" : "field to sort by",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "array of ids to retrieve",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "allOf" : [ {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 1
+                    }
+                  }
+                }, {
+                  "$ref" : "#/definitions/RWE_USERS_TO_ROLES"
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/projectanalysts" : {
+      "get" : {
+        "tags" : [ "Projectanalysts" ],
+        "summary" : "Get Projectanalysts list",
+        "description" : "Get Projectanalysts list. Supports paging & search",
+        "operationId" : "getProjectAnalysts",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "Number of objects returned",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page number",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "description" : "sort records in ASC or DESC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "order_by",
+          "in" : "query",
+          "description" : "field to sort by",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "array of ids to retrieve",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "allOf" : [ {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 1
+                    }
+                  }
+                }, {
+                  "$ref" : "#/definitions/RWE_USERS_TO_ROLES"
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/projectleaders" : {
+      "get" : {
+        "tags" : [ "Projectleaders" ],
+        "summary" : "Get Projectleaders list",
+        "description" : "Get Projectleaders list. Supports paging & search",
+        "operationId" : "getProjectLeaders",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "Number of objects returned",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page number",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "description" : "sort records in ASC or DESC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "order_by",
+          "in" : "query",
+          "description" : "field to sort by",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "array of ids to retrieve",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "allOf" : [ {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 1
+                    }
+                  }
+                }, {
+                  "$ref" : "#/definitions/RWE_USERS_TO_ROLES"
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/programmers2" : {
+      "get" : {
+        "tags" : [ "Programmers2" ],
+        "summary" : "Get Programmers2 list",
+        "description" : "Get Programmers2 list. Supports paging & search",
+        "operationId" : "getProgrammers2",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "Number of objects returned",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page number",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "description" : "sort records in ASC or DESC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "order_by",
+          "in" : "query",
+          "description" : "field to sort by",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "array of ids to retrieve",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "allOf" : [ {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 1
+                    }
+                  }
+                }, {
+                  "$ref" : "#/definitions/RWE_USERS_TO_ROLES"
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/shinyStakeholders" : {
+      "get" : {
+        "tags" : [ "ShinyStakeholders" ],
+        "summary" : "Get ShinyStakeholders list",
+        "description" : "Get ShinyStakeholders list. Supports paging & search",
+        "operationId" : "getShinyStakeholders",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "Number of objects returned",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page number",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "description" : "sort records in ASC or DESC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "order_by",
+          "in" : "query",
+          "description" : "field to sort by",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "array of ids to retrieve",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "allOf" : [ {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 1
+                    }
+                  }
+                }, {
+                  "$ref" : "#/definitions/RWE_USERS_TO_ROLES"
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/requestors" : {
+      "get" : {
+        "tags" : [ "Requestors" ],
+        "summary" : "Get Requestors list",
+        "description" : "Get Requestors list. Supports paging & search",
+        "operationId" : "getRequestors",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "Number of objects returned",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page number",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "description" : "sort records in ASC or DESC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "order_by",
+          "in" : "query",
+          "description" : "field to sort by",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "array of ids to retrieve",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "allOf" : [ {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 1
+                    }
+                  }
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/compounds" : {
+      "get" : {
+        "tags" : [ "Compounds" ],
+        "summary" : "Get Compounds list",
+        "description" : "Get Compounds list. Supports paging & search",
+        "operationId" : "getCompounds",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "Number of objects returned",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page number",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "description" : "sort records in ASC or DESC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "order_by",
+          "in" : "query",
+          "description" : "field to sort by",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "array of ids to retrieve",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "allOf" : [ {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 1
+                    }
+                  }
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/franchises" : {
+      "get" : {
+        "tags" : [ "TherapeuticAreas" ],
+        "summary" : "Get TherapeuticAreas list",
+        "description" : "Get TherapeuticAreas list. Supports paging & search",
+        "operationId" : "getTherapeuticAreasList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "Number of objects returned",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page number",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "description" : "sort records in ASC or DESC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "order_by",
+          "in" : "query",
+          "description" : "field to sort by",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "array of ids to retrieve",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "allOf" : [ {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 1
+                    }
+                  }
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/therapeuticareas" : {
+      "get" : {
+        "tags" : [ "TherapeuticAreas" ],
+        "summary" : "Get TherapeuticAreas list",
+        "description" : "Get TherapeuticAreas list. Supports paging & search",
+        "operationId" : "getTherapeuticAreas",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "Number of objects returned",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page number",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "description" : "sort records in ASC or DESC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "order_by",
+          "in" : "query",
+          "description" : "field to sort by",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "array of ids to retrieve",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "allOf" : [ {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 1
+                    }
+                  }
+                } ]
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/projects_autocomplete/{category}" : {
+      "get" : {
+        "tags" : [ "AutocompleteProjectWithoutSolr" ],
+        "summary" : "Autocomplete Project Without Solr",
+        "description" : "autocomplete Project Without Solr",
+        "operationId" : "autocompleteProjectWithoutSolr",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "category",
+          "in" : "path",
+          "description" : "The category of the ProjectWithoutSolr that needs to be fetched.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "allOf" : [ {
+                "properties" : {
+                  "category" : {
+                    "type" : "integer",
+                    "example" : 1
+                  }
+                }
+              }, { } ]
+            }
+          },
+          "400" : {
+            "description" : "Invalid category supplied"
+          },
+          "404" : {
+            "description" : "ProjectWithoutSolr not found"
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    },
+    "/projects_search/{category}" : {
+      "get" : {
+        "tags" : [ "ProjectWithoutSolr" ],
+        "summary" : "Get Project Without Solr",
+        "description" : "Get Project Without Solr",
+        "operationId" : "searchProjectWithoutSolr",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "category",
+          "in" : "path",
+          "description" : "The category of the ProjectWithoutSolr that needs to be fetched.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "allOf" : [ {
+                "properties" : {
+                  "category" : {
+                    "type" : "integer",
+                    "example" : 1
+                  }
+                }
+              }, { } ]
+            }
+          },
+          "400" : {
+            "description" : "Invalid category supplied"
+          },
+          "404" : {
+            "description" : "ProjectWithoutSolr not found"
+          }
+        },
+        "security" : [ {
+          "AuthToken" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "AuthToken" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "MD_PROJECT" : {
+      "type" : "object",
+      "properties" : {
+        "PROJECT_DETAIL" : {
+          "type" : "object",
+          "example" : "project detail",
+          "properties" : { }
+        },
+        "MODIFIED_ON" : {
+          "type" : "object",
+          "example" : "modified on",
+          "properties" : { }
+        },
+        "MODIFIED_BY" : {
+          "type" : "string",
+          "example" : "modified by"
+        },
+        "CREATED_ON" : {
+          "type" : "object",
+          "example" : "created on",
+          "properties" : { }
+        },
+        "CREATED_BY" : {
+          "type" : "string",
+          "example" : "created by"
+        },
+        "TITLE" : {
+          "type" : "string",
+          "example" : "title"
+        },
+        "OVERVIEW" : {
+          "type" : "object",
+          "example" : "overview",
+          "properties" : { }
+        },
+        "RWE_PROJECT_ID" : {
+          "type" : "string",
+          "example" : "rwe project id"
+        }
+      }
+    },
+    "MD_PROJECT_STATUSES" : {
+      "type" : "object",
+      "properties" : {
+        "STATUS" : {
+          "type" : "string",
+          "example" : "status"
+        }
+      }
+    },
+    "RWE_USERS_TO_ROLES" : {
+      "type" : "object",
+      "properties" : {
+        "ROLE_ID" : {
+          "type" : "string",
+          "example" : "ROLE_ID"
+        },
+        "FIRST_NAME" : {
+          "type" : "string",
+          "example" : "FIRST_NAME"
+        },
+        "LAST_NAME" : {
+          "type" : "string",
+          "example" : "LAST_NAME"
+        },
+        "CREATED_ON" : {
+          "type" : "object",
+          "example" : "CREATED_ON",
+          "properties" : { }
+        },
+        "MODIFIED_ON" : {
+          "type" : "object",
+          "example" : "MODIFIED_ON",
+          "properties" : { }
+        },
+        "STATUS" : {
+          "type" : "string",
+          "example" : "STATUS"
+        },
+        "EDIT_ASSETS" : {
+          "type" : "string",
+          "example" : "EDIT_ASSETS"
+        }
+      }
+    },
+    "inline_response_200" : {
+      "properties" : {
+        "MD_PROJECT" : {
+          "$ref" : "#/definitions/MD_PROJECT"
+        }
+      }
+    }
+  },
+  "parameters" : {
+    "pageSize" : {
+      "name" : "page_size",
+      "in" : "query",
+      "description" : "Number of objects returned",
+      "required" : false,
+      "type" : "integer"
+    },
+    "pageNumber" : {
+      "name" : "page",
+      "in" : "query",
+      "description" : "Page number",
+      "required" : false,
+      "type" : "integer"
+    },
+    "searchString" : {
+      "name" : "q",
+      "in" : "query",
+      "description" : "String to search",
+      "required" : false,
+      "type" : "string"
+    },
+    "orderBy" : {
+      "name" : "order_by",
+      "in" : "query",
+      "description" : "field to sort by",
+      "required" : false,
+      "type" : "string"
+    },
+    "order" : {
+      "name" : "order",
+      "in" : "query",
+      "description" : "sort records in ASC or DESC",
+      "required" : false,
+      "type" : "string"
+    },
+    "id" : {
+      "name" : "id",
+      "in" : "query",
+      "description" : "array of ids to retrieve",
+      "required" : false,
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      },
+      "collectionFormat" : "multi"
+    }
+  }
+}
